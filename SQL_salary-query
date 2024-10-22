@@ -1,0 +1,16 @@
+sql
+Copy code
+SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
+FROM Employee e
+JOIN (
+    SELECT departmentId, MAX(salary) AS max_salary
+    FROM Employee
+    GROUP BY departmentId
+) max_salaries
+ON e.departmentId = max_salaries.departmentId
+AND e.salary = max_salaries.max_salary
+JOIN Department d
+ON e.departmentId = d.id;
+Explanation of Changes:
+Correct Joining: The Department table is joined using d.id (the Department table’s id column) and e.departmentId (the Employee table’s departmentId column). This ensures the department name can be retrieved.
+Aliasing: The table Department is aliased as d and used to reference the name column from the Department table.
